@@ -1,0 +1,47 @@
+{
+  "name": "Портфолио СКОиПТ",
+  "short_name": "Портфолио",
+  "description": "Портфолио студента в эстетике тёмной академии — фото, о себе, курс, специальность, индивидуальный проект, фразы мудрейших, конкурсы, ходатайства, расписание.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f3ea",
+  "theme_color": "#4a3a2e",
+  "orientation": "portrait",
+  "scope": "./",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Фото",
+      "short_name": "Фото",
+      "url": "./index.html#photos",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "О себе",
+      "short_name": "О себе",
+      "url": "./index.html#about",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Индивидуальный проект",
+      "short_name": "Проект",
+      "url": "./index.html#individual",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
