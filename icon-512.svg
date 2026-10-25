@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#2e7d5b" rx="80"/>
+  <text x="256" y="290" font-family="serif" font-size="160" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="8">СК</text>
+  <path d="M256 110 Q320 110 345 190 Q370 270 295 255 Q215 230 165 295 Q110 375 185 400 Q265 425 345 350 Q395 270 320 190" fill="none" stroke="#ffffff" stroke-width="8"/>
+  <path d="M85 270 Q135 295 160 305 Q190 315 225 315" fill="none" stroke="#c9a250" stroke-width="10"/>
+  <path d="M355 270 Q305 295 280 305 Q250 315 215 315" fill="none" stroke="#8c6d3f" stroke-width="10"/>
+</svg>

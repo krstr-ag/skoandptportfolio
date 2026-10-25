@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио · СКОиПТ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f7f3ea;--surface:#fffafa;--ink:#4a3a2e;--ink-light:#6b5b4e;--rust:#8c6d3f;--rust-dark:#6b5232;--paper:#fdfaf0;--muted:#8a7a63;--line:rgba(74,58,46,.18);--serif:'Cormorant Garamond','Playfair Display',Georgia,serif;--disp:'Playfair Display','Cormorant Garamond',Georgia,serif;}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.7}
+  a{color:inherit;text-decoration:none}img{max-width:100%;display:block;border-radius:3px}
+  .wrap{width:min(1000px,calc(100%-40px));margin-inline:auto}
+  #auth{position:fixed;inset:0;z-index:1000;background:radial-gradient(circle at 50% 30%,#e8dcc8,#f7f3ea);display:flex;align-items:center;justify-content:center}
+  #auth.hidden{display:none!important}
+  .auth-card{width:min(440px,92%);padding:36px 28px;border:1px solid var(--line);background:var(--paper);border-radius:6px;box-shadow:0 25px 70px rgba(74,58,46,.25)}
+  .auth-card h2{font-family:var(--disp);font-weight:600;font-size:26px;color:var(--ink);margin:0 0 8px;text-align:center}
+  .auth-card .sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:22px}
+  .auth-card label{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--rust-dark);margin-bottom:6px;font-weight:500}
+  .auth-card input{width:100%;padding:10px 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-family:var(--serif);font-size:14px;border-radius:4px;margin-bottom:14px}
+  .auth-card input:focus{outline:none;border-color:var(--rust)}
+  .auth-btn{width:100%;padding:12px;border:1px solid var(--rust);background:var(--rust);color:var(--surface);font-family:var(--disp);font-weight:600;font-size:15px;border-radius:4px;cursor:pointer}
+  .auth-btn:hover{background:var(--rust-dark)}
+  .auth-err{color:#a65d3b;font-size:12px;margin-bottom:10px;display:none;text-align:center}
+  .auth-step{display:none}.auth-step.active{display:block}
+  .social-divider{display:flex;align-items:center;gap:12px;margin:20px 0 14px;color:var(--muted);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+  .social-divider::before,.social-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+  .social-row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn-social{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);font-family:var(--serif);font-size:13.5px;font-weight:600;cursor:pointer}
+  .btn-social:hover{border-color:var(--rust);background:var(--paper)}
+  .btn-google{color:#4285F4}.btn-google:hover{background:#e8f0fe;border-color:#4285F4}
+  .btn-yandex{color:#FF0000}.btn-yandex:hover{background:#ffeaea;border-color:#FF0000}
+  .btn-vk{color:#4a76a8}.btn-vk:hover{background:#e7ecf3;border-color:#4a76a8}
+  header{position:sticky;top:0;z-index:100;background:rgba(247,243,234,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:18px 0;flex-wrap:wrap}
+  .brand-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:4px;cursor:pointer}
+  .brand{font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink);line-height:1}
+  .brand-cap{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--rust-dark);letter-spacing:.2em;text-transform:uppercase}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start;padding:6px 0 0 0;border-bottom:1px solid var(--line);margin-top:6px}
+  .tab{padding:10px 20px;border:1px solid var(--line);border-bottom:2px solid transparent;border-radius:4px 4px 0 0;background:var(--surface);color:var(--ink-light);font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .tab.active{background:var(--rust);color:var(--surface);border-color:var(--rust);border-bottom:2px solid var(--rust)}
+  .user-area{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px}
+  .user-area a{color:var(--rust-dark);margin-left:6px;text-decoration:underline;cursor:pointer}
+  .tab-panel{display:none;padding:40px 0 80px;animation:fade .45s ease both}.tab-panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--rust-dark);font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;margin-bottom:10px}
+  .eyebrow::before{content:'';width:30px;height:1px;background:var(--rust)}
+  h1,h2,h3{font-family:var(--disp);margin-top:0;line-height:1.15}
+  h1{font-size:clamp(34px,4vw,52px);font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+  h2{font-size:clamp(26px,3.5vw,40px);font-weight:600;color:var(--ink);margin-bottom:14px}
+  p{color:var(--ink-light);font-size:15px;margin:0 0 16px}.muted{color:var(--muted);font-size:13px}
+  .hero-wrap{position:relative;height:min(68vh,640px);border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--paper);margin-bottom:26px}
+  .hero-wrap img{width:100%;height:100%;object-fit:cover;filter:saturate(.95) contrast(1.03)}
+  .photo-empty{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--surface);color:var(--muted)}
+  .photo-empty .icon{font-size:44px;margin-bottom:10px;opacity:.5}
+  .photo-controls{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+  .photo-controls input[type=file]{display:none}
+  .photo-btn{padding:10px 18px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:4px;cursor:pointer;font-size:13.5px;font-weight:500}
+  .photo-btn:hover{border-color:var(--rust)}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .gallery figure{margin:0;position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid var(--line);background:var(--paper);border-radius:4px}
+  .gallery img{width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:8px 10px;background:linear-gradient(transparent,rgba(74,58,46,.7));font-size:12px;color:var(--surface)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:26px;margin-bottom:24px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  @media(max-width:620px){.form-row{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--rust-dark);font-weight:500}
+  .field input,.field textarea,.field select{padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:14px;border-radius:4px}
+  .field textarea{min-height:110px;resize:vertical}
+  .file-wrap{border:1px dashed var(--line);border-radius:4px;padding:16px;text-align:center;color:var(--muted);font-size:13px}
+  .file-wrap input{display:none}
+  .saved-file{margin-top:10px;font-size:13px;color:var(--rust-dark);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .saved-file a{border-bottom:1px solid var(--rust-dark)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border:1px solid var(--rust);background:var(--rust);color:var(--surface);font-family:var(--disp);font-weight:600;font-size:14.5px;border-radius:4px;cursor:pointer}
+  .btn:hover{background:var(--rust-dark)}
+  .btn-outline{background:transparent;color:var(--rust-dark);border-color:var(--rust-dark)}
+  .btn-secondary{border-color:var(--line);background:var(--bg);color:var(--ink)}
+  .petitions-list{display:grid;gap:12px;margin-bottom:20px}
+  .petition-item{border:1px solid var(--line);border-radius:4px;padding:16px;background:var(--surface);position:relative}
+  .petition-num{font-family:var(--disp);font-weight:700;font-size:20px;color:var(--rust-dark);position:absolute;top:12px;left:14px}
+  .petition-text{margin-left:30px;font-size:14px;color:var(--ink-light)}
+  .quote-card{border:1px solid var(--line);border-radius:4px;padding:22px;background:#ffffff;position:relative;box-shadow:0 2px 8px rgba(74,58,46,.08)}
+  footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);font-size:12px;text-align:center}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);border:1px solid var(--line);color:var(--surface);padding:10px 18px;border-radius:4px;font-size:13.5px;z-index:1000;display:none}
+</style>
+</head>
+<body>
+
+<div id="auth">
+  <div class="auth-card">
+    <h2 id="auth-title">Вход</h2>
+    <div class="sub" id="auth-sub">Войди в аккаунт, чтобы открыть своё портфолио</div>
+    <div class="auth-err" id="auth-err"></div>
+    <form id="auth-form" novalidate>
+      <div class="auth-step active" id="step-login">
+        <label>Email</label>
+        <input id="login-email" type="email" placeholder="имя@почта.ру">
+        <label>Пароль</label>
+        <input id="login-pass" type="password" placeholder="Введите пароль">
+        <button type="button" class="auth-btn" id="auth-btn-login">Войти</button>
+      </div>
+      <div class="auth-step" id="step-reg">
+        <label>Имя</label>
+        <input id="reg-name" placeholder="Иван Иванов">
+        <label>Email</label>
+        <input id="reg-email" type="email" placeholder="имя@почта.ру">
+        <label>Телефон (для SMS)</label>
+        <input id="reg-phone" type="tel" placeholder="+7 900 000 00 00">
+        <label>Пароль</label>
+        <input id="reg-pass" type="password" placeholder="Придумайте пароль">
+        <label>Код из SMS/почты</label>
+        <input id="reg-code" type="text" placeholder="123456">
+        <button type="button" class="auth-btn" id="btn-get-code">Отправить код</button>
+        <button type="button" class="auth-btn" id="btn-reg">Зарегистрироваться</button>
+        <div style="margin-top:10px;text-align:center;font-size:12px;color:var(--muted);">
+          Уже есть аккаунт? <a id="to-login-from-reg" style="cursor:pointer;color:var(--rust-dark);text-decoration:underline;">Войти</a>
+        </div>
+      </div>
+    </form>
+    <div style="margin-top:14px;text-align:center;">
+      <button class="btn btn-secondary" id="btn-demo" style="width:auto;padding:10px 20px;font-size:13px;">Быстрый вход (демо)</button>
+    </div>
+    <div class="social-divider">Или войдите через</div>
+    <div class="social-row">
+      <button class="btn-social btn-yandex" id="btn-yandex">Яндекс</button>
+      <button class="btn-social btn-vk" id="btn-vk">ВКонтакте</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand-wrap" id="brand-wrap">
+      <div class="brand" id="brand">ПОРТФОЛИО</div>
+      <div class="brand-cap">СКОиПТ · колледж</div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <a href="#photos" class="tab active" data-tab="photos">Фото</a>
+      <a href="#about" class="tab" data-tab="about">О себе</a>
+      <a href="#course" class="tab" data-tab="course">Курс</a>
+      <a href="#specialty" class="tab" data-tab="specialty">Специальность</a>
+      <a href="#individual" class="tab" data-tab="individual">Индивидуальный проект</a>
+      <a href="#quotes" class="tab" data-tab="quotes">Фразы мудрейших</a>
+      <a href="#competitions" class="tab" data-tab="competitions">Конкурсы</a>
+      <a href="#petitions" class="tab" data-tab="petitions">Ходатайства</a>
+      <a href="#college" class="tab" data-tab="college">СКОиПТ</a>
+      <a href="#bot" class="tab" data-tab="bot">Бот расписания</a>
+    </nav>
+    <div class="user-area" id="user-area">
+      <span id="user-name">Гость</span>
+      <a id="btn-logout" style="display:none;">Выйти</a>
+      <a id="btn-delete-account" style="display:none;color:#a65d3b;text-decoration:underline;cursor:pointer;">Удалить аккаунт</a>
+      <a id="btn-login" style="display:inline;">Войти / Зарегистрироваться</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="tab-photos" class="tab-panel active">
+    <div class="eyebrow">Мои фото</div><h1>Фотопортрет</h1>
+    <div class="hero-wrap" id="hero-preview">
+      <div class="photo-empty" id="photo-empty"><div class="icon">📷</div><div>Загрузи своё фото</div><p class="muted">Фото человека — загружаешь ты сам</p></div>
+      <img id="hero-img" style="display:none;">
+    </div>
+    <div class="photo-controls"><label class="photo-btn">Выбрать фото <input type="file" id="photo-file" accept="image/*"></label><button class="btn btn-outline" id="photo-clear" style="display:none;">Убрать фото</button></div>
+    <p class="muted">Лента этого сезона:</p>
+    <div class="gallery" id="photo-gallery"></div>
+    <div class="photo-controls"><label class="photo-btn">Добавить ещё фото <input type="file" id="photo-file-2" accept="image/*" multiple></label></div>
+  </section>
+
+  <section id="tab-about" class="tab-panel">
+    <div class="eyebrow">О себе</div><h2>Кто я</h2>
+    <div class="form-row"><div class="field"><label>Имя</label><input id="about-name"></div><div class="field"><label>Возраст</label><input id="about-age" type="number"></div></div>
+    <div class="field"><label>Расскажи о себе</label><textarea id="about-bio"></textarea></div>
+    <button class="btn" id="about-save">Сохранить</button>
+  </section>
+
+  <section id="tab-course" class="tab-panel">
+    <div class="eyebrow">Курс</div><h2>Мой курс</h2>
+    <div class="card"><div class="form-row"><div class="field"><label>Курс</label><select id="course-select"><option>4 курс</option><option>1 курс</option><option>2 курс</option><option>3 курс</option><option>5 курс</option></select></div><div class="field"><label>Буква группы</label><select id="group-letter-select"><option value="">—</option><option>ПД</option><option>ПДО</option><option>ТД</option><option>ТГ</option><option>Д</option><option>Б</option><option>А</option><option>ИС</option><option>Р</option></select></div></div><div class="field"><label>Номер группы</label><input id="group-number-input" type="number" placeholder="1,2,3"></div>
+    <button class="btn" id="course-save">Сохранить</button></div>
+  </section>
+
+  <section id="tab-specialty" class="tab-panel">
+    <div class="eyebrow">Специальность</div><h2>Направление</h2>
+    <div class="card"><div class="field"><label>Специальность</label><input id="specialty-input"></div><div class="field"><label>Код</label><input id="specialty-code"></div><button class="btn" id="specialty-save">Сохранить</button></div>
+  </section>
+
+  <section id="tab-individual" class="tab-panel">
+    <div class="eyebrow">Индивидуальный проект</div><h2>Индивидуальный проект</h2>
+    <div class="card">
+      <div class="field"><label>Тема</label><input id="ind-title"></div>
+      <div class="field"><label>Основная часть</label><textarea id="ind-desc"></textarea></div>
+      <div class="field"><label>Файл</label><div class="file-wrap"><input type="file" id="ind-file"><div>Загрузи файл</div></div><div id="ind-saved" class="saved-file"></div></div>
+      <button class="btn" id="ind-save">Сохранить проект</button>
+    </div>
+  </section>
+
+  <section id="tab-quotes" class="tab-panel">
+    <div class="eyebrow">Фразы мудрейших</div><h2>Книжная полка</h2>
+    <div class="card"><div class="field"><label>Фраза</label><input id="q-text"></div><div class="field"><label>Автор</label><input id="q-author"></div><button class="btn" id="q-add">Добавить</button></div>
+    <div class="quotes-list" id="quotes-list"></div>
+  </section>
+
+  <section id="tab-competitions" class="tab-panel">
+    <div class="eyebrow">Конкурсы</div><h2>Мои конкурсы</h2>
+    <div class="card"><div class="field"><label>Название</label><input id="comp-title"></div><div class="field"><label>Фото</label><div class="file-wrap"><input type="file" id="comp-file" accept="image/*"><div>Загрузи фото</div></div><div id="comp-saved" class="saved-file"></div></div><button class="btn" id="comp-add">Добавить</button></div>
+    <div class="gallery" id="competitions-list"></div>
+  </section>
+
+  <section id="tab-petitions" class="tab-panel">
+    <div class="eyebrow">Ходатайства</div><h2>Мои ходатайства</h2>
+    <div class="card"><div class="form-row"><div class="field"><label>Семестр</label><select id="pet-semester"><option>1</option><option>2</option></select></div></div><div class="field"><label>Текст</label><textarea id="pet-text"></textarea></div><button class="btn" id="pet-add">Добавить</button></div>
+    <div class="petitions-list" id="petitions-list"></div>
+    <div style="margin-top:16px;text-align:center"><button class="btn btn-outline" id="pet-copy-all">Копировать выбранный семестр</button></div>
+  </section>
+
+  <section id="tab-college" class="tab-panel">
+    <div class="eyebrow">СКОиПТ</div><h2>Салаватский колледж образования и профессиональных технологий</h2>
+    <p class="muted">Официальный сайт: <a href="http://skoipt.ru/ru/" target="_blank" style="color:var(--rust-dark);text-decoration:underline;">skoipt.ru/ru/</a></p>
+  </section>
+
+  <section id="tab-bot" class="tab-panel">
+    <div class="eyebrow">Бот расписания</div><h2>Расписание на завтра</h2>
+    <div class="card"><div class="field"><label>Время</label><input type="time" id="bot-time" value="16:00"></div><label style="cursor:pointer;display:flex;align-items:center;gap:8px"><input type="checkbox" id="bot-enable"> Включить бота</label><p class="muted">Бот в ВКонтакте: <a href="https://vk.com/skoipt_schedule" target="_blank" style="color:var(--rust-dark);text-decoration:underline;">vk.com/skoipt_schedule</a></p><div class="field"><label>Текст расписания</label><textarea id="sched-text"></textarea></div><button class="btn" id="bot-save">Сохранить</button><div id="bot-status" style="margin-top:12px;"></div></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Портфолио студента СКОиПТ · данные хранятся на сервере
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-outline" id="btn-export">Экспорт JSON</button>
+      <button class="btn btn-outline" id="btn-import">Импорт JSON</button>
+      <input type="file" id="import-file" accept=".json" style="display:none">
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = window.location.origin;
+
+async function api(path, method='GET', body=null){
+  const o = {method, credentials:'include', headers:{'Content-Type':'application/json'}};
+  if(body) o.body = JSON.stringify(body);
+  const r = await fetch(API + path, o);
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+let me = null;
+
+async function loadMe(){
+  try{
+    const d = await api('/api/user');
+    me = d.user;
+    renderUI();
+    restoreForms();
+  }catch(e){ me = null; renderUI(); }
+}
+
+function getUser(){ return me }
+async function setUser(u){
+  me = u;
+  renderUI();
+  restoreForms();
+  document.getElementById('auth').classList.add('hidden');
+}
+async function save(){
+  if(!me) return;
+  await api('/api/save', 'POST', me);
+}
+
+function authErr(m){ const el=document.getElementById('auth-err'); if(el){ el.textContent=m; el.style.display='block'; } }
+function hideAuthErr(){ const el=document.getElementById('auth-err'); if(el) el.style.display='none'; }
+function showToast(m){ const t=document.getElementById('toast'); if(t){ t.textContent=m; t.style.display='block'; setTimeout(()=>t.style.display='none',3500); } }
+
+document.getElementById('btn-login').onclick=(e)=>{e.preventDefault();document.getElementById('auth').classList.remove('hidden');}
+document.getElementById('btn-logout').onclick=async()=>{ await api('/api/logout'); me=null; renderUI(); showToast('Вы вышли'); location.reload(); }
+document.getElementById('btn-delete-account').onclick=async()=>{
+  if(!confirm('Полностью удалить аккаунт и все данные? Это нельзя отменить.')) return;
+  const pwd = prompt('Введите пароль для подтверждения удаления:');
+  if(!pwd) return;
+  try{
+    await fetch(API + '/api/delete-account', {method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({password:pwd})});
+    alert('Аккаунт удалён');
+    location.reload();
+  }catch(err){ alert('Ошибка удаления: ' + err.message); }
+};
+document.getElementById('auth-btn-login').onclick=async()=>{
+  const e=document.getElementById('login-email').value, p=document.getElementById('login-pass').value;
+  try{ const r=await api('/api/login','POST',{email:e,password:p}); await setUser(r.user); showToast('Вход выполнен'); }catch(err){ authErr(err.message||'Ошибка входа'); }
+};
+document.getElementById('btn-reg').onclick=async()=>{
+  const n=document.getElementById('reg-name').value, em=document.getElementById('reg-email').value, p=document.getElementById('reg-pass').value, c=document.getElementById('reg-code').value, ph=document.getElementById('reg-phone').value;
+  try{ const r=await api('/api/register','POST',{name:n,email:em,password:p,code:c,phone:ph}); await setUser(r.user); showToast('Регистрация успешна'); }catch(err){ authErr(err.message||'Ошибка регистрации'); }
+};
+document.getElementById('btn-get-code').onclick=async()=>{
+  const t=document.getElementById('reg-email').value||document.getElementById('reg-phone').value;
+  try{ const r=await api('/api/send-code','POST',{email:t.includes('@')?t:null,phone:t.includes('@')?null:t}); showToast('Код отправлен (демо: '+r.demo_code+')'); }catch(err){ authErr(err.message||'Ошибка'); }
+};
+document.getElementById('to-reg').onclick=(e)=>{e.preventDefault();document.getElementById('auth-title').textContent='Регистрация';document.querySelectorAll('.auth-step').forEach(x=>x.classList.remove('active'));document.getElementById('step-reg').classList.add('active');}
+document.getElementById('to-login-from-reg').onclick=(e)=>{e.preventDefault();document.getElementById('auth-title').textContent='Вход';document.querySelectorAll('.auth-step').forEach(x=>x.classList.remove('active'));document.getElementById('step-login').classList.add('active');}
+document.getElementById('btn-demo').onclick=async()=>{
+  try{ const r=await api('/api/login','POST',{email:'demo@example.com',password:'demo123'}); await setUser(r.user); showToast('Демо вход'); }
+  catch(err){
+    try{ await api('/api/register','POST',{name:'Демо',email:'demo@example.com',password:'demo123'}); const r2=await api('/api/login','POST',{email:'demo@example.com',password:'demo123'}); await setUser(r2.user); showToast('Демо создан'); }
+    catch(e2){ authErr('Нет демо аккаунта, зарегистрируйся'); }
+  }
+};
+
+document.getElementById('btn-yandex').onclick = () => { window.location.href = API + '/auth/yandex'; };
+document.getElementById('btn-vk').onclick = () => { window.location.href = API + '/auth/vk'; };
+
+function renderUI(){
+  const u=getUser(); document.getElementById('user-name').textContent = u ? u.name : 'Гость';
+  const isLogged = !!u;
+  document.getElementById('btn-logout').style.display = isLogged ? 'inline' : 'none';
+  document.getElementById('btn-login').style.display = isLogged ? 'none' : 'inline';
+  document.getElementById('btn-delete-account').style.display = isLogged ? 'inline' : 'none';
+}
+function restoreForms(){
+  const u=getUser(); if(!u) return;
+  document.getElementById('about-name').value = u.nameA || '';
+  document.getElementById('about-age').value = u.age || '';
+  document.getElementById('about-bio').value = u.bio || '';
+  document.getElementById('course-select').value = u.course || '4';
+  document.getElementById('group-letter-select').value = u.groupLetter || '';
+  document.getElementById('group-number-input').value = u.groupNumber || '';
+  document.getElementById('specialty-input').value = u.specialty || '';
+  document.getElementById('specialty-code').value = u.specialtyCode || '';
+  document.getElementById('ind-title').value = u.individual ? u.individual.title : '';
+  document.getElementById('ind-desc').value = u.individual ? u.individual.desc : '';
+}
+document.getElementById('about-save').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  u.nameA=document.getElementById('about-name').value; u.age=document.getElementById('about-age').value; u.bio=document.getElementById('about-bio').value; await save(); showToast('Сохранено');
+}
+document.getElementById('course-save').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  u.course=document.getElementById('course-select').value; u.groupLetter=document.getElementById('group-letter-select').value; u.groupNumber=document.getElementById('group-number-input').value; await save(); showToast('Курс сохранён');
+}
+document.getElementById('specialty-save').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  u.specialty=document.getElementById('specialty-input').value; u.specialtyCode=document.getElementById('specialty-code').value; await save(); showToast('Специальность сохранена');
+}
+document.getElementById('ind-save').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  u.individual = { title: document.getElementById('ind-title').value, desc: document.getElementById('ind-desc').value }; await save(); showToast('Проект сохранён');
+}
+document.getElementById('q-add').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  const t=document.getElementById('q-text').value, a=document.getElementById('q-author').value; if(!t){ showToast('Введите фразу'); return }
+  u.quotes.push({ text: t, author: a }); document.getElementById('q-text').value=''; document.getElementById('q-author').value=''; await save(); showToast('Добавлено');
+}
+document.getElementById('pet-add').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  const t=document.getElementById('pet-text').value, s=document.getElementById('pet-semester').value; if(!t){ showToast('Введите текст'); return }
+  u.petitions.push({ text: t, semester: s }); document.getElementById('pet-text').value=''; await save(); showToast('Добавлено ('+s+'-й семестр)');
+}
+document.getElementById('pet-copy-all').onclick=async()=>{
+  const u=getUser(); if(!u||!u.petitions||!u.petitions.length){ showToast('Нет ходатайств'); return }
+  const s=document.getElementById('copy-semester').value; const f=u.petitions.filter(p=>p.semester===s); if(!f.length){ showToast('Нет в этом семестре'); return }
+  const txt=f.map((p,i)=>`${i+1}. ${p.text}`).join('\n\n');
+  try{ await navigator.clipboard.writeText(txt); showToast('Скопировано '+f.length+' шт.'); }catch(e){ alert('Текст:\n'+txt); }
+}
+document.getElementById('bot-save').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Войдите'); return }
+  u.sched = { text: document.getElementById('sched-text').value, time: document.getElementById('bot-time').value, enabled: document.getElementById('bot-enable').checked }; await save(); document.getElementById('bot-status').textContent = u.sched.enabled ? 'Бот включен' : 'Бот выключен'; showToast('Расписание сохранено');
+}
+document.getElementById('btn-export').onclick=async()=>{
+  const u=getUser(); if(!u){ showToast('Нет аккаунта'); return }
+  const blob=new Blob([JSON.stringify(u,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='portfolio_'+u.name+'.json'; a.click(); URL.revokeObjectURL(url);
+}
+document.getElementById('btn-import').onclick=()=>document.getElementById('import-file').click();
+document.getElementById('import-file').onchange=async(e)=>{
+  if(!e.target.files.length) return;
+  const text=await new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsText(e.target.files[0]); });
+  try{ const d=JSON.parse(text); if(!d.id) throw new Error('bad'); sessionStorage.setItem('portfolio_user',JSON.stringify(d)); me=d; renderUI(); restoreForms(); showToast('Импортировано'); }catch(err){ showToast('Ошибка импорта'); }
+}
+
+function renderPhotos(){
+  const u=getUser(); const e=document.getElementById('photo-empty'); const i=document.getElementById('hero-img'); const c=document.getElementById('photo-clear');
+  if(u && u.photo){ e.style.display='none'; i.src=u.photo; i.style.display='block'; c.style.display='inline-block'; }
+  else { e.style.display='flex'; i.style.display='none'; c.style.display='none'; }
+}
+document.getElementById('photo-file').onchange=async()=>{
+  const f=document.getElementById('photo-file').files[0]; if(!f) return; const u=getUser(); if(!u){ showToast('Войдите'); return }
+  const url=await new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(f); });
+  u.photo=url; await save(); renderPhotos(); showToast('Фото загружено');
+}
+document.getElementById('photo-clear').onclick=async()=>{
+  const u=getUser(); if(!u) return; u.photo=''; await save(); renderPhotos(); showToast('Убрано');
+}
+window.addEventListener('DOMContentLoaded', loadMe);
+</script>
+</body>
+</html>
