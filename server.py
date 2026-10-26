@@ -14,7 +14,7 @@ app = Flask(__name__, static_folder='.', static_url_path='')
 app.secret_key = os.getenv('SECRET_KEY', 'change-me-secret-key-12345')
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5000')
 
-# ---------- Настройки почты ----------
+# ---------- Почта ----------
 SMTP_HOST = os.getenv('SMTP_HOST', 'smtp.yandex.ru')
 SMTP_PORT = int(os.getenv('SMTP_PORT', '465'))
 SMTP_USER = os.getenv('SMTP_USER', '')
@@ -155,12 +155,10 @@ def send_code():
     body = f'Ваш код подтверждения: {code}\nДействует 10 минут.'
     html = f'<p>Ваш код подтверждения: <b>{code}</b></p><p>Действует 10 минут.</p>'
 
-    sent = False
     if email:
-        sent = send_email(email, subject, body, html)
+        send_email(email, subject, body, html)
     elif phone:
         print(f'\n=== SMS (DEMO) to {phone} ===\nКод: {code}\n================\n')
-        sent = True
 
     return jsonify({'ok': True, 'demo_code': code if not SMTP_USER else None})
 
